@@ -1,0 +1,21 @@
+﻿@page
+@model ToDoApp.Pages.Todos.CreateModel
+
+
+@{
+    ViewData["Title"] = "Create Todo";
+}
+
+<h1 class="mt-3">Create Todo</h1>
+
+<form method="post" class="mt-3">
+    <partial name="_TodoFormModel" for="Todo" />
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

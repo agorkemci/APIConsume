@@ -1,0 +1,130 @@
+﻿@page
+@model ToDoApp.Pages.Todos.IndexModel
+@{
+    ViewData["Title"] = "To Do List";
+}
+<h1 class="mt-3">To Do List</h1>
+<div class="mb-2">
+    <a asp-page="Create" class="btn btn-success">Create New Todo</a>
+</div>
+
+
+
+
+<div class="card mb-3">
+    <div class="card-body">
+        <!-- Dıştaki col-md-6 kaldırıldı, form tüm kart genişliğini kullanıyor -->
+        <form method="get" class="row g-2 align-items-center">
+            
+            <!-- Arama Alanı -->
+            <div class="col-auto">
+                <label class="form-label mb-0" for="q">Search:</label>
+            </div>
+            <!-- col sınıfı satırdaki kalan tüm boşluğu kaplar -->
+            <div class="col">
+                <input type="text" id="q" name="q" value="@Model.q" class="form-control" placeholder="Search for title or description"> 
+            </div>
+
+            <!-- Priority -->
+            <div class="col-auto">
+                <label class="form-label mb-0" for="priority">Priority:</label>
+            </div>
+            <div class="col-auto">
+                <select id="priority" name="priority" class="form-select">
+                    <option value="">All</option>
+                    @foreach (var priority in Enum.GetValues(typeof(TodoPriority)))
+                    {
+                        <option value="@priority" selected="@(Model.priority == (TodoPriority)priority ? "selected" : null)">@priority</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Completed -->
+            <div class="col-auto">
+                <label class="form-label mb-0" for="isDone">Completed:</label>
+            </div>
+            <div class="col-auto">
+                <select id="isDone" name="status" class="form-select">
+                    <option value="">All</option>
+                    <option value="pending" selected="@(Model.status == "pending" ? "selected" : null)">Pending</option>
+                    <option value="done" selected="@(Model.status == "done" ? "selected" : null)">Done</option>   
+                </select>
+            </div>
+
+            <!-- Sort -->
+            <div class="col-auto">
+                <label class="form-label mb-0" for="sort">Sort:</label>
+            </div>
+            <div class="col-auto">
+                <select id="sort" name="sort" class="form-select">
+                    <option value="">All</option>
+                    <option value="due_asc" selected="@(Model.sort == "due_asc" ? "selected" : null)">Due Date (Ascending)</option>
+                    <option value="due_desc" selected="@(Model.sort == "due_desc" ? "selected" : null)">Due Date (Descending)</option>
+                </select>
+            </div>
+
+            <!-- Buton -->
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th class="d-none d-md-table-cell">Description</th>
+                <th>Priority</th>
+                <th>Due Date</th>   
+                <th>Completed</th>
+                <th>Actions</th>
+            </tr>   
+        </thead>
+        <tbody>
+            @foreach (var todo in Model.Items)
+            {
+                <tr>
+                    <td>@todo.Title</td>
+                    <td class="d-none d-md-table-cell">@todo.Description</td>
+                    <td>
+                        @switch (todo.Priority)
+                        {
+                            case TodoPriority.High:
+                                <span class="badge bg-danger">High</span>
+                                break;
+                            case TodoPriority.Medium:
+                                <span class="badge bg-warning">Medium</span>
+                                break;
+                            case TodoPriority.Low:
+                                <span class="badge bg-success">Low</span>
+                                break;
+                        }
+                    </td>
+                    <td>@(todo.DueDate?.ToString("yyyy-MM-dd"))</td>
+                    <td>@if (todo.IsDone)
+                        {
+                            <span class="text-success">Done</span>
+                        }
+                        else{
+                            <span class="text-muted">Pending</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@todo.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@todo.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="alert alert-info">
+    @if (!Model.Items.Any())
+    {
+        <p>No items to show.</p>
+    }
+</div>

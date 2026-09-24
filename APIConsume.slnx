@@ -1,1 +1,5 @@
-<Solution />
+<Solution>
+  <Project Path="ContactApp - DB/ContactApp.csproj" />
+  <Project Path="News - WebAPI/News - WebAPI.csproj" />
+  <Project Path="ToDoApp - EF Core/ToDoApp.csproj" />
+</Solution>
