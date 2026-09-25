@@ -14,7 +14,7 @@ namespace ToDoApp.Services.NewsApi
 
     public async Task<IEnumerable<NewsArticleDto>> GetArticlesAsync(CancellationToken cancellationToken)
     {
-        var articles = await _httpClient.GetFromJsonAsync<IEnumerable<NewsArticleDto>>("api/NewArticles",cancellationToken);
+        var articles = await _httpClient.GetFromJsonAsync<IEnumerable<NewsArticleDto>>("api/NewsArticles",cancellationToken);
         return articles;
     }
 

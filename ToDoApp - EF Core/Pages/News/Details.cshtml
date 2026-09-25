@@ -1,0 +1,36 @@
+﻿@page
+@model ToDoApp.Pages.News.DetailsModel
+@{
+    ViewData["Title"]="Details of New";
+}
+<h1 class="mt-3">@Model._newsArticleDto?.Title ?? "Details of New:"</h1> 
+
+@if (Model._newsArticleDto == null)
+{
+    <div class="alert alert-info">There are no news to represent!</div>
+}
+else
+{
+    <div>
+        <header class="mb-3">
+            <h1>@Model._newsArticleDto.Title</h1>
+            <div class="text-muted">
+                <span>@Model._newsArticleDto.AuthorName</span>
+                @if(Model._newsArticleDto.PublishedAt is not null)
+                {
+                    <span>@Model._newsArticleDto.PublishedAt?.ToString("yyyy-MM-DD HH:mm")</span>
+                }
+
+            </div>
+        </header>
+        <section class="mb-4">
+            @if(!string.IsNullOrEmpty(Model._newsArticleDto.Summary)){
+                <p class="lead">@Model._newsArticleDto.Summary</p>
+            }
+            <div>
+                @Html.Raw(Model._newsArticleDto.Content)
+            </div>
+        </section>
+        <a asp-page="/News/Index" class="btn btn-secondary">Back</a>
+    </div>
+}

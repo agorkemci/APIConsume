@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoApp.Repositories;
 using ToDoApp.Services;
+using ToDoApp.Services.NewsApi;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -19,6 +20,13 @@ else
 {
     builder.Services.AddScoped<ITodoStore,InMemoryTodoStore>();
 }
+
+builder.Services.AddHttpClient<INewsClient, NewsClient>(client =>
+{
+    var baseurl = builder.Configuration["NewsApi:BaseUrl"] ?? "https://localhost:7185";
+    client.BaseAddress = new Uri(baseurl);
+}
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -8,6 +8,12 @@ namespace ToDoApp.Pages.News
     {
 
         private readonly INewsClient _newsClient;
+
+        public IndexModel(INewsClient newsClient)
+        {
+            _newsClient = newsClient;
+        }
+
         public IEnumerable<NewsArticleDto> Articles { get; set; }   
         public async Task OnGet(CancellationToken cancellationToken)
         {
