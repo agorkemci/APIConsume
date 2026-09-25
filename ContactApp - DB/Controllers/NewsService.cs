@@ -31,7 +31,7 @@ namespace ContactApp.Controllers
         public async Task<NewsArticleDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             try {
-                var response = await _httpClient.GetAsync($"api/NewsArticle/{id}", cancellationToken);
+                var response = await _httpClient.GetAsync($"api/NewsArticles/{id}", cancellationToken);
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)//404
                 {
                     return null;
